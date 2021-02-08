@@ -35,6 +35,8 @@ if ($conn->connect_error) {
             <input type="text" name="price"><br>
             <label for="number">Number</label><br>
             <input type="text" name="number"><br>
+            <label for="picture">picture</label><br>
+            <input type="text" name="picture"><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
 
@@ -141,7 +143,7 @@ if ($conn->connect_error) {
                 }else{
                 
                 
-                $sql = "INSERT INTO list (name, price, number) VALUES('$product', '$price', '$number')";
+                $sql = "INSERT INTO list (name, price, number, picture) VALUES('$product', '$price', '$number', '$picture')";
         
                         if($conn->query($sql) === TRUE) {
                         echo "Record created success fully";
@@ -180,6 +182,7 @@ if ($conn->connect_error) {
                             <td><?php echo $rows['name']; ?></td>
                             <td><?php echo $rows['price']; ?></td>
                             <td><?php echo $rows['number']; ?></td>
+                            <td><?php echo $rows['picture']; ?></td>
                         </tr>
                 <?php
                     }
