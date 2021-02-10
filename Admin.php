@@ -35,8 +35,11 @@ if ($conn->connect_error) {
             <input type="text" name="price"><br>
             <label for="number">Number</label><br>
             <input type="text" name="number"><br>
-            <label for="picture">picture</label><br>
-            <input type="text" name="picture"><br>
+                <form action="upload.php" method="post" enctype="multipart/form-data">
+                    <label for="picture"></label><br>
+                        Select image to upload:
+                        <input type="file" name="fileToUpload" id="fileToUpload">
+                </form><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
 
@@ -143,7 +146,7 @@ if ($conn->connect_error) {
                 }else{
                 
                 
-                $sql = "INSERT INTO list (name, price, number, picture) VALUES('$product', '$price', '$number', '$picture')";
+                $sql = "INSERT INTO list (name, price, number) VALUES('$product', '$price', '$number')";
         
                         if($conn->query($sql) === TRUE) {
                         echo "Record created success fully";
@@ -162,13 +165,14 @@ if ($conn->connect_error) {
                 <table id="table"><!--ตาราง 1 -->
 
                 <tr>
-                    <th colspan="4"><h2>Stock</h2></th>
+                    <th colspan="5"><h2>Stock</h2></th>
                 </tr>
                 <t>
                     <th> ID </th>
                     <th> Name </th>
                     <th> Price </th>
                     <th> Number </th>
+                    <th> Picture </th>
                 </t>
                 <?php
                 $sql="SELECT * from list";
@@ -182,7 +186,7 @@ if ($conn->connect_error) {
                             <td><?php echo $rows['name']; ?></td>
                             <td><?php echo $rows['price']; ?></td>
                             <td><?php echo $rows['number']; ?></td>
-                            <td><?php echo $rows['picture']; ?></td>
+                            <td><img src="<?php echo $rows['picture']; ?>" ></td>
                         </tr>
                 <?php
                     }
