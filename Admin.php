@@ -39,6 +39,7 @@ if ($conn->connect_error) {
                     <label for="picture"></label><br>
                         Select image to upload:
                         <input type="file" name="fileToUpload" id="fileToUpload">
+                        <input type="submit" value="Upload Image" name="submit">
                 </form><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
@@ -186,7 +187,7 @@ if ($conn->connect_error) {
                             <td><?php echo $rows['name']; ?></td>
                             <td><?php echo $rows['price']; ?></td>
                             <td><?php echo $rows['number']; ?></td>
-                            <td><img src="<?php echo $rows['picture']; ?>" ></td>
+                            <td><img src="<?php echo $rows['picture']; ?>" width="150px" height="150px" ></td>
                         </tr>
                 <?php
                     }
@@ -259,69 +260,69 @@ if ($conn->connect_error) {
 
 
 
+<form action="">
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+    
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon"></span> Comment</h4>
+                </div>
+            <div>
+                    <table class="histroy">
 
-   
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon"></span> History</h4>
+                        <tr>
+                            <th colspan="5"><h2>ประวัติ</h2></th>
+                        </tr>
+                        <t>
+                            <th> ID </th>
+                            <th> Name </th>
+                            <th> Item </th>
+                            <th> Quantity </th>
+                            <th> Status </th>
+                        </t>
+                        <?php
+                        $sql="SELECT * from list_name" ;
+                        $result=$conn->query($sql);
+
+
+                        while($row = $result->fetch_assoc())
+                            {
+                                
+
+                        ?>
+                                <tr>
+                                    <td><?php echo $row["ID"]; ?></td>
+                                    <td><?php echo $row['Name']; ?></td>
+                                    <td><?php echo $row['Item']; ?></td>
+                                    <td><?php echo $row['Quantity']; ?></td>
+                                    <td><?php echo $row['Status']; ?></td>
+                                </tr>
+                                
+                        <?php
+                            }
+                            $conn->close();
+                            
+                        ?>
+                    </table>
+
+
+
+
+
+                    
             </div>
-        <div>
-                <table class="histroy">
-
-                    <tr>
-                        <th colspan="5"><h2>ประวัติ</h2></th>
-                    </tr>
-                    <t>
-                        <th> ID </th>
-                        <th> Name </th>
-                        <th> Item </th>
-                        <th> Quantity </th>
-                        <th> Status </th>
-                    </t>
-                    <?php
-                    $sql="SELECT * from list_name" ;
-                    $result=$conn->query($sql);
-
-
-                    while($row = $result->fetch_assoc())
-                        {
-                            
-
-                    ?>
-                            <tr>
-                                <td><?php echo $row["ID"]; ?></td>
-                                <td><?php echo $row['Name']; ?></td>
-                                <td><?php echo $row['Item']; ?></td>
-                                <td><?php echo $row['Quantity']; ?></td>
-                                <td><?php echo $row['Status']; ?></td>
-                            </tr>
-                            
-                    <?php
-                        }
-                        $conn->close();
-                        
-                    ?>
-                </table>
-
-
-
-
-
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success center-block" data-dismiss="modal">
+                <span class="glyphicon "></span>Enter
+                </button>
                 
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal">
-            <span class="glyphicon glyphicon-remove"></span> Cancel
-            </button>
-            
-        </div>
+            </div>
+            </div>
         </div>
     </div>
-</div>
-
+</form>
 </body>
 </html>
