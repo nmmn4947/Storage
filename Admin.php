@@ -35,12 +35,12 @@ if ($conn->connect_error) {
             <input type="text" name="price"><br>
             <label for="number">Number</label><br>
             <input type="text" name="number"><br>
-                <form action="upload.php" method="post" enctype="multipart/form-data">
+                <label action="upload.php" method="post" enctype="multipart/form-data">
                     <label for="picture"></label><br>
                         Select image to upload:
                         <input type="file" name="fileToUpload" id="fileToUpload">
-                        <input type="submit" value="Upload Image" name="submit">
-                </form><br>
+
+                </label><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
 
@@ -133,6 +133,8 @@ if ($conn->connect_error) {
                 $product = $_POST['product'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
+                $picture =  basename($_FILES["fileToUpload"]["name"]);
+        
 
             if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
                 echo "NO moreeeeeee";
@@ -146,8 +148,9 @@ if ($conn->connect_error) {
                     
                 }else{
                 
-                
-                $sql = "INSERT INTO list (name, price, number) VALUES('$product', '$price', '$number')";
+                    
+                $sql = "INSERT INTO list (name, price, number , picture) VALUES('$product', '$price', '$number', '$picture')";
+               
         
                         if($conn->query($sql) === TRUE) {
                         echo "Record created success fully";
