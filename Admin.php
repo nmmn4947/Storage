@@ -28,19 +28,18 @@ if ($conn->connect_error) {
 <h1>Admin Menu</h1>
     <button class="moveright" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-list-alt"></span> History</button>
 
-        <form class="form" action="Admin.php" method="post">
+        <form class="form" action="Admin.php" method="post" enctype="multipart/form-data">
             <label for="product">Name</label><br>
             <input type="text" name="product"><br>
             <label for="price">Price</label><br>
             <input type="text" name="price"><br>
             <label for="number">Number</label><br>
             <input type="text" name="number"><br>
-                <label action="upload.php" method="post" enctype="multipart/form-data">
-                    <label for="picture"></label><br>
+                    <label for="picture">
                         Select image to upload:
                         <input type="file" name="fileToUpload" id="fileToUpload">
 
-                </label><br>
+                    </label><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
 
@@ -133,7 +132,11 @@ if ($conn->connect_error) {
                 $product = $_POST['product'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
-                $picture =  basename($_FILES["fileToUpload"]["name"]);
+                
+                
+                
+
+                
         
 
             if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
@@ -148,7 +151,43 @@ if ($conn->connect_error) {
                     
                 }else{
                 
-                    
+                        $target_dir = "uploads/";
+                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                        $uploadOk = 1;
+                        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+                        // Check if image file is a actual image or fake image
+                        if(isset($_POST["submit"])) {
+                        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                        if($check !== false) {
+                            echo "File is an image - " . $check["mime"] . ".";
+                            $uploadOk = 1;
+                        } else {
+                            echo "File is not an image.";
+                            $uploadOk = 0;
+                        }
+                        }
+
+                        // Check if file already exists
+                        if (file_exists($target_file)) {
+                        echo "Sorry, file already exists.";
+                        $uploadOk = 0;
+                        }
+
+
+                        // Check if $uploadOk is set to 0 by an error
+                        if ($uploadOk == 0) {
+                        echo "Sorry, your file was not uploaded.";
+                        // if everything is ok, try to upload file
+                        } else {
+                        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                            echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+                        } else {
+                            echo "Sorry, there was an error uploading your file.";
+                        }
+                        }
+                
+                $picture = $target_dir . basename($_FILES["fileToUpload"]["name"]);    
                 $sql = "INSERT INTO list (name, price, number , picture) VALUES('$product', '$price', '$number', '$picture')";
                
         
