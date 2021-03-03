@@ -27,8 +27,13 @@ if ($conn->connect_error) {
 
 <h1>Admin Menu</h1>
     <button class="moveright" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-list-alt"></span> History</button>
+    <form action="data.php">
+        <input type="submit">
+    </form>
 
         <form class="form" action="Admin.php" method="post" enctype="multipart/form-data">
+            <label for="nameENG">English Name</label><br>
+            <input type="text" name="nameENG"><br> 
             <label for="product">Name</label><br>
             <input type="text" name="product"><br>
             <label for="price">Price</label><br>
@@ -128,7 +133,7 @@ if ($conn->connect_error) {
         <?php
 
         if (isset($_POST['submit'])) {
-
+                $ENG = $_POST['nameENG'];
                 $product = $_POST['product'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
@@ -139,7 +144,7 @@ if ($conn->connect_error) {
                 
         
 
-            if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
+            if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"])) or (empty($_POST["nameENG"]))){
                 echo "NO moreeeeeee";
             }else{
                 $sql="SELECT * from list where name='$product'";
@@ -188,7 +193,7 @@ if ($conn->connect_error) {
                         }
                 
                 $picture = $target_dir . basename($_FILES["fileToUpload"]["name"]);    
-                $sql = "INSERT INTO list (name, price, number , picture) VALUES('$product', '$price', '$number', '$picture')";
+                $sql = "INSERT INTO list (name, nameENG, price, number , picture) VALUES('$product', '$ENG', '$price', '$number', '$picture')";
                
         
                         if($conn->query($sql) === TRUE) {
@@ -250,13 +255,14 @@ if ($conn->connect_error) {
                         echo "<table id='table1'> <!--นี้คือตารางที่ 2 -->
 
                         <tr>
-                            <th colspan='6'><h2>ใบเบิก</h2></th>
+                            <th colspan='7'><h2>ใบเบิก</h2></th>
                         </tr>
                         <tr>
                             <th> ID </th>
                             <th> Name </th>
                             <th> Item </th>
                             <th> Quantity </th>
+                            <th> Comment </th>
                             <th>-</th>
                             <th>-</th>
                         </tr>";
@@ -277,12 +283,17 @@ if ($conn->connect_error) {
                                     <td>".$rows["Name"]."</td>
                                     <td>".$rows["Item"]."</td>
                                     <td>".$rows["Quantity"]."</td>
+                                    <td>".$rows["Comment"]."
                                     <form action='Admin.php' method = 'POST'>
+                                    
+                                    <input type='text' class='grpTextBox'></td>
+                                    
                                     <td><input type='submit'  name ='accept' value='Accept'></td>
                                     <td><input type='submit' name='reject' value='Reject'></td>
                                     <input type='hidden' name='ID' value=' ".$rows["ID"]."'>                                    
                                     </form> 
                                 </tr>";
+
 
                        
                                 }                        
@@ -310,7 +321,7 @@ if ($conn->connect_error) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4><span class="glyphicon"></span> Comment</h4>
+                    <h4><span class="glyphicon"></span> History</h4>
                 </div>
             <div>
                     <table class="histroy">
