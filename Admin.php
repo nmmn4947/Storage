@@ -19,7 +19,14 @@ if ($conn->connect_error) {
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+
+       <style>                    
+        body {
+            max-width: 100% !important;
+            width: 100%;
+        }
+        </style>
         
     </head>
 
@@ -27,9 +34,9 @@ if ($conn->connect_error) {
 
 <h1>Admin Menu</h1>
     <button class="moveright" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-list-alt"></span> History</button>
-    <form action="data.php">
-        <input type="submit">
-    </form>
+<form action="Adminprogress.php" method="post" value="ใบเบิก">
+    <input type="submit" name="Request">
+</form>
 
         <form class="form" action="Admin.php" method="post" enctype="multipart/form-data">
             <label for="nameENG">English Name</label><br>
@@ -51,44 +58,7 @@ if ($conn->connect_error) {
         </form>
 
 
-<?php 
-    
 
-    
-    if ((isset($_POST['accept']))){
-
-
-        $ID= $_POST['ID'];
-        
-        
-        $sql = "UPDATE list_name SET Status='Accept' WHERE ID='$ID' ";
-        if ($conn->query($sql) === TRUE) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $conn->error;
-          } 
-        }
-
-        if ((isset($_POST['reject']))){
-
-
-            $ID= $_POST['ID'];
-            
-            
-            $sql = "UPDATE list_name SET Status='Reject' WHERE ID='$ID' ";
-            if ($conn->query($sql) === TRUE) {
-                echo "Record updated successfully";
-            } else {
-                echo "Error updating record: " . $conn->error;
-              } 
-            }
-           
-
-
-
-        
-
-?>
 
 
 
@@ -193,7 +163,7 @@ if ($conn->connect_error) {
                         }
                 
                 $picture = $target_dir . basename($_FILES["fileToUpload"]["name"]);    
-                $sql = "INSERT INTO list (name, nameENG, price, number , picture) VALUES('$product', '$ENG', '$price', '$number', '$picture')";
+                $sql = "INSERT INTO list (name, nameENG, price, amount , number , picture) VALUES('$product', '$ENG', '$price', 0,  '$number', '$picture')";
                
         
                         if($conn->query($sql) === TRUE) {
@@ -210,7 +180,7 @@ if ($conn->connect_error) {
                
                
                
-                <table id="table"><!--ตาราง 1 -->
+                <table id="table"><!--ตาราง 1 จำนวนของในคลัง-->
 
                 <tr>
                     <th colspan="5"><h2>Stock</h2></th>
@@ -251,69 +221,14 @@ if ($conn->connect_error) {
 
 
 
-                        <?php
-                        echo "<table id='table1'> <!--นี้คือตารางที่ 2 -->
 
-                        <tr>
-                            <th colspan='7'><h2>ใบเบิก</h2></th>
-                        </tr>
-                        <tr>
-                            <th> ID </th>
-                            <th> Name </th>
-                            <th> Item </th>
-                            <th> Quantity </th>
-                            <th> Comment </th>
-                            <th>-</th>
-                            <th>-</th>
-                        </tr>";
-                        
-                        $sql="SELECT * from list_name where Status ='Progress'";
-                        $result=$conn->query($sql);
-        
-                        if ($result->num_rows > 0) {
-                             
-                            while($rows=mysqli_fetch_assoc($result))
-                            {
-                                if($rows["Status"] == "Progress"){
-
-                                
-                        
-                             echo   "<tr> 
-                                    <td>".$rows["ID"]."</td>
-                                    <td>".$rows["Name"]."</td>
-                                    <td>".$rows["Item"]."</td>
-                                    <td>".$rows["Quantity"]."</td>
-                                    <td>".$rows["Comment"]."
-                                    <form action='Admin.php' method = 'POST'>
-                                    
-                                    <input type='text' class='grpTextBox'></td>
-                                    
-                                    <td><input type='submit'  name ='accept' value='Accept'></td>
-                                    <td><input type='submit' name='reject' value='Reject'></td>
-                                    <input type='hidden' name='ID' value=' ".$rows["ID"]."'>                                    
-                                    </form> 
-                                </tr>";
-
-
-                       
-                                }                        
-                            
-                            }
-                        } else {
-                            echo "<tr><td colspan='6'>0 Results</td></tr>";
-                          }
-
-                            
-                        ?>
-                            </table>
-        
         
 
 
 
 
 
-<form action="">
+
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
 
@@ -323,6 +238,9 @@ if ($conn->connect_error) {
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4><span class="glyphicon"></span> History</h4>
                 </div>
+                <form action="data.php">
+                     <input type="submit" value="Data">
+                </form>
             <div>
                     <table class="histroy">
 
@@ -337,7 +255,7 @@ if ($conn->connect_error) {
                             <th> Status </th>
                         </t>
                         <?php
-                        $sql="SELECT * from list_name" ;
+                        $sql="SELECT * from send" ;
                         $result=$conn->query($sql);
 
 
@@ -347,10 +265,9 @@ if ($conn->connect_error) {
 
                         ?>
                                 <tr>
-                                    <td><?php echo $row["ID"]; ?></td>
+                                    <td><?php echo $row['ID']; ?></td>
                                     <td><?php echo $row['Name']; ?></td>
                                     <td><?php echo $row['Item']; ?></td>
-                                    <td><?php echo $row['Quantity']; ?></td>
                                     <td><?php echo $row['Status']; ?></td>
                                 </tr>
                                 
@@ -376,6 +293,6 @@ if ($conn->connect_error) {
             </div>
         </div>
     </div>
-</form>
+
 </body>
 </html>
