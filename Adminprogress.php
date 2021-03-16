@@ -31,7 +31,7 @@ if ($conn->connect_error) {
                         </tr>";
                         $sql="SELECT * from send where Status ='กำลังดำเนินการ'";
                         $ins = "INSERT INTO messageu (BILL, mess, time) VALUES('$BILL, $mess, $time') where $BILL";
-                        $ar = "INSERT INTO senda (BILL, mess time) VALUES('$BILL, $mess, $time')"
+                        
                         
                         $result=$conn->query($sql);
         
@@ -53,12 +53,22 @@ if ($conn->connect_error) {
                                     <form action='Admin.php' method = 'POST'>
                                     <textarea  name='foo' rows='4' cols='50'></textarea>
                                     </td>
-                                    <td><input type='submit'  name ='accept' value='ยินยอม'></td>
-                                    <td><input type='submit' name='reject' value='ไม่ยินยอม'></td>
+                                    <select name="select" autofocus>
+                                    <option value="กรุณาเลือก">---กรุณาเลือก---</option>
+                                    <option value="accept">ยินยอม</option>
+                                    <option value="ไม่ยินยอม">ไม่ยินยอม</option>
+                                  </select>
                                     <input type='hidden' name='ID' value=' ".$rows["BILL"]."'>       
                            
                                     </form> 
                                 </tr>";
+                                if($mess->num_rows > 0){
+                                    if(isset($_POST['accept'])){
+                                        $ar = "INSERT INTO senda (BILL, mess) VALUES ('$BILL, รับได้เลย')"
+                                    }
+                                    if
+                                }
+                                    //next : reject check message ว่ามีไหมหากไม่มีขอให้ใส่เพื่อบอกเหตุผล ถ้ามีmessage ส่งได้เลย
 
                                 if($conn->query($ins) === TRUE) {
                                     echo 'Record created success fully 2';
