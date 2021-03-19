@@ -1,5 +1,26 @@
 <?php
 
+$AR =$_GET['AR'];
+echo $AR;
+
+include 'db.php';
+
+$conn=new mysqli($server_name,$user_name,$password,$database);
+if ($conn->connect_error) {
+    echo "errorororo";
+}
+?>
+
+
+
+
+
+
+
+
+
+<?php
+
 include 'db.php';
 
 $conn=new mysqli($server_name,$user_name,$password,$database);
@@ -16,7 +37,7 @@ if ($conn->connect_error) {
     
 
 <?php
-                        echo "<table id='table1'> <!--นี้คือตารางที่ 2 คำขอใบเบิก -->
+                        echo "<table id='table1'> <!--นี้คือตารางคำขอใบเบิก -->
 
                         <tr>
                             <th colspan='7'><h2>ใบเบิก</h2></th>
@@ -30,7 +51,7 @@ if ($conn->connect_error) {
                             <th>-</th>
                         </tr>";
                         $sql="SELECT * from send where Status ='กำลังดำเนินการ'";
-                        $ins = "INSERT INTO messageu (BILL, mess, time) VALUES('$BILL, $mess, $time') where $BILL";
+                        $ins = "INSERT INTO messagead (BILL, mess,) VALUES('$BILL, $mess, ') where $BILL";
                         
                         
                         $result=$conn->query($sql);
@@ -53,21 +74,54 @@ if ($conn->connect_error) {
                                     <form action='Admin.php' method = 'POST'>
                                     <textarea  name='foo' rows='4' cols='50'></textarea>
                                     </td>
-                                    <select name="select" autofocus>
-                                    <option value="กรุณาเลือก">---กรุณาเลือก---</option>
-                                    <option value="accept">ยินยอม</option>
-                                    <option value="ไม่ยินยอม">ไม่ยินยอม</option>
+                                    <select id='AR' onchange='selectAR()' name='selects' autofocus>
+                                    <option value='selecto'>---กรุณาเลือก---</option>
+                                    <option value='accept'>ยินยอม</option>
+                                    <option value='reject'>ไม่ยินยอม</option>
                                   </select>
+                                  <input type='submit' value='submit' >
                                     <input type='hidden' name='ID' value=' ".$rows["BILL"]."'>       
                            
                                     </form> 
                                 </tr>";
-                                if($mess->num_rows > 0){
-                                    if(isset($_POST['accept'])){
-                                        $ar = "INSERT INTO senda (BILL, mess) VALUES ('$BILL, รับได้เลย')"
-                                    }
-                                    if
-                                }
+                                
+
+
+                            if(isset($_POST['submit'])){
+
+                                if($_POST['accept']){ //ยอมรับ
+
+                                
+                                            if(empty($_POST["mess"])){
+                                                $ar = "INSERT INTO messagead (BILL, mess) VALUES ('$BILL, รับได้เลย')";
+                                                
+                                            if($conn->query($ar) === TRUE) {
+                                                    echo 'Record created success fully 2';
+                                                    } else {
+                                                            echo 'EROEOROROREOR' . $conn->error;
+                                                            }  
+                                                                        }
+
+                                            else{ if($conn->query($ins) === TRUE) {
+                                                echo 'Record created success fully 2';
+                                                } else {
+                                                        echo 'EROEOROROREOR' . $conn->error;
+                                                        }
+                                                }
+                                                            
+
+                                    if (isset($_POST['reject'])){ //ไม่ยอมรับ
+                                        
+                                        if(empty($_POST["mess"])){
+                                                echo 'กรุณากรอกข้อความ';
+                                     } else{ 
+                                         if($conn->query($ins) === TRUE) {
+                                        echo 'Record created success fully 2';
+                                        } else {
+                                                echo 'EROEOROROREOR' . $conn->error;
+                                                }
+                                     }
+
                                     //next : reject check message ว่ามีไหมหากไม่มีขอให้ใส่เพื่อบอกเหตุผล ถ้ามีmessage ส่งได้เลย
 
                                 if($conn->query($ins) === TRUE) {
@@ -76,10 +130,15 @@ if ($conn->connect_error) {
                                             echo 'EROEOROROREOR' . $conn->error;
                                     }  
                        
-                                }                        
+                                }
+                            }                        
                             
+                            
+                            if(isset($_POST['selecto'])){
+                                echo 'กรุณาเลือก';
                             }
-                        } else {
+                        
+                         else {
                             echo "<tr><td colspan='6'>0 Results</td></tr>";
                           }
 
@@ -93,7 +152,7 @@ if ($conn->connect_error) {
     
 
     
-    if ((isset($_POST['accept']))){
+    if (isset($_POST['accept'])){
 
 
         $ID= $_POST['ID'];
@@ -107,7 +166,7 @@ if ($conn->connect_error) {
           } 
         }
 
-        if ((isset($_POST['reject']))){
+        if (isset($_POST['reject'])){
 
 
             $ID= $_POST['ID'];
@@ -128,4 +187,20 @@ if ($conn->connect_error) {
 
 ?>
                             </body>
+
+
+<script>
+    function selectAR(){
+        var x = document.getElementBYId("AR");
+        var i = x.selectedIndex;
+        window.location.href = "Adminprogress.php?AR=" +.options[i].text;
+        
+    }
+</script>
+
+
+
+
+
+
 </html>
