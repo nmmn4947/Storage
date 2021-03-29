@@ -41,8 +41,8 @@ if ($conn->connect_error) {
         <form class="form" action="Admin.php" method="post" enctype="multipart/form-data">
             <label for="nameENG">English Name</label><br>
             <input type="text" name="nameENG"><br> 
-            <label for="product">Name</label><br>
-            <input type="text" name="product"><br>
+            <label for="name">Name</label><br>
+            <input type="text" name="name"><br>
             <label for="price">Price</label><br>
             <input type="text" name="price"><br>
             <label for="number">Number</label><br>
@@ -51,7 +51,15 @@ if ($conn->connect_error) {
                         Select image to upload:
                         <input type="file" name="fileToUpload" id="fileToUpload">
 
-                    </label><br>
+                    </label>
+                    <select id="ch" onchange="selectch()" name="category" autofocus>
+                                    <option value="office">อุปกรณ์ใช้ในออฟฟิส</option>
+                                    <option value="paper">กระดาษ</option>
+                                    <option value="write">เครื่องเขียน</option>
+                                    <option value="rope">เชือก</option>
+                                    <option value="color">สี</option>
+                                    <option value="classroom">อุปกรณ์ใช้ในห้องเรียน</option>
+                    </select><br>
             <input type="submit" name="submit" value="Submit">
             <input type="submit" name="Edit" value="Edit">
 
@@ -71,14 +79,14 @@ if ($conn->connect_error) {
         <?php
         if (isset($_POST['Edit'])) {
             
-            if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
+            if((empty($_POST["name"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
                 echo "NO moreeeeeee";
             } else{
-                $product = $_POST['product'];
+                $name = $_POST['name'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
                 
-                $sql = "UPDATE list SET price='$price',number='$number' WHERE name='$product'";
+                $sql = "UPDATE list SET price='$price',number='$number' WHERE name='$name'";
         
                 if($conn->query($sql) === TRUE) {
                 echo "Record created success fully 2";
@@ -104,9 +112,10 @@ if ($conn->connect_error) {
 
         if (isset($_POST['submit'])) {
                 $ENG = $_POST['nameENG'];
-                $product = $_POST['product'];
+                $name = $_POST['name'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
+                $picture = $_POST['$picture'];
                 
                 
                 
@@ -114,10 +123,10 @@ if ($conn->connect_error) {
                 
         
 
-            if((empty($_POST["product"])) or (empty($_POST["price"])) or (empty($_POST["number"])) or (empty($_POST["nameENG"]))){
+            if((empty($_POST["name"])) or (empty($_POST["price"])) or (empty($_POST["number"])) or (empty($_POST["nameENG"]))){
                 echo "NO moreeeeeee";
             }else{
-                $sql="SELECT * from list where name='$product'";
+                $sql="SELECT * from list where name='$name'";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -128,6 +137,7 @@ if ($conn->connect_error) {
                 
                         $target_dir = "uploads/";
                         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
                         $uploadOk = 1;
                         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
@@ -162,8 +172,8 @@ if ($conn->connect_error) {
                         }
                         }
                 
-                $picture = $target_dir . basename($_FILES["fileToUpload"]["name"]);    
-                $sql = "INSERT INTO list (name, nameENG, price, amount , number , picture) VALUES('$product', '$ENG', '$price', 0,  '$number', '$picture')";
+                $picture = $target_dir . basename($_FILES["fileToUpload"]["names"]);    
+                $sql = "INSERT INTO list (name, nameENG, price, amount , unit, number , picture, category) VALUES('$name', '$ENG', '$price', 0, 'a',  '$number', '$picture', '$category')";
                
         
                         if($conn->query($sql) === TRUE) {
@@ -183,7 +193,7 @@ if ($conn->connect_error) {
                 <table id="table"><!--ตาราง 1 จำนวนของในคลัง-->
 
                 <tr>
-                    <th colspan="5"><h2>Stock</h2></th>
+                    <th colspan="6"><h2>Stock</h2></th>
                 </tr>
                 <t>
                     <th> ID </th>
@@ -191,6 +201,7 @@ if ($conn->connect_error) {
                     <th> Price </th>
                     <th> Number </th>
                     <th> Picture </th>
+                    <th> Category </th>
                 </t>
                 <?php
                 $sql="SELECT * from list";
@@ -205,12 +216,15 @@ if ($conn->connect_error) {
                             <td><?php echo $rows['price']; ?></td>
                             <td><?php echo $rows['number']; ?></td>
                             <td><img src="<?php echo $rows['picture']; ?>" width="150px" height="150px" ></td>
+                            <td><?php echo $rows['category']; ?></td>
+ 
                         </tr>
                 <?php
                     }
             
                     
                 ?>
+
                 </table>
                 <br><br><br>
 
@@ -255,7 +269,7 @@ if ($conn->connect_error) {
                             <th> Status </th>
                         </t>
                         <?php
-                        $sql="SELECT * from send" ;
+                        $sql="SELECT * from send where BILL LIKE(กำลังดำเนินการ,ยินยอม,ไม่ยินยอม)" ;
                         $result=$conn->query($sql);
 
 
@@ -265,9 +279,11 @@ if ($conn->connect_error) {
 
                         ?>
                                 <tr>
-                                    <td><?php echo $row['ID']; ?></td>
-                                    <td><?php echo $row['Name']; ?></td>
-                                    <td><?php echo $row['Item']; ?></td>
+                                    <td><?php echo $row['BILL']; ?></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <form action="item.php">
+                                    <td><input type="submit" name="item"></td>
+                                    </form>
                                     <td><?php echo $row['Status']; ?></td>
                                 </tr>
                                 
@@ -293,6 +309,18 @@ if ($conn->connect_error) {
             </div>
         </div>
     </div>
+
+
+
+
+    <script>
+    function selectch(){
+        var x = document.getElementBYId("ch");
+        var i = x.selectedIndex;
+        window.location.href = "Admin.php?ch=" +.options[i].text;
+        
+    }
+</script>
 
 </body>
 </html>
