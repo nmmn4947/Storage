@@ -79,7 +79,7 @@ if ($conn->connect_error) {
                                     <option value='accept'>ยินยอม</option>
                                     <option value='reject'>ไม่ยินยอม</option>
                                   </select>
-                                  <input type='submit' value='submit' >
+                                  <input type='submit' value='submit12' >
                                     <input type='hidden' name='ID' value=' ".$rows["BILL"]."'>       
                            
                                     </form> 
@@ -87,7 +87,8 @@ if ($conn->connect_error) {
                                 
 
 
-                            if(isset($_POST['submit'])){
+                                
+                                if(isset($_POST['submit12'])){
 
                                 if($_POST['accept']){ //ยอมรับ
 
@@ -109,6 +110,8 @@ if ($conn->connect_error) {
                                                         }
                                                 }
                                                             
+                                            }
+
 
                                     if (isset($_POST['reject'])){ //ไม่ยอมรับ
                                         
@@ -131,17 +134,20 @@ if ($conn->connect_error) {
                                     }  
                        
                                 }
-                            }                        
+                                                   
                             
                             
                             if(isset($_POST['selecto'])){
                                 echo 'กรุณาเลือก';
                             }
-                        
+                        }
+                    }
+                }
+            }
                          else {
                             echo "<tr><td colspan='6'>0 Results</td></tr>";
                           }
-
+                        
                             
                         ?>
                             </table>
@@ -180,9 +186,9 @@ if ($conn->connect_error) {
               } 
             }
            
+        
 
-
-
+    
         
 
 ?>
