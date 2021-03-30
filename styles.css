@@ -52,7 +52,7 @@ tr, td, th{
 }
 
 .moveright{
-  position: relative;
+  position: absolute;
   left: 94%;
   
 
@@ -72,6 +72,22 @@ tr, td, th{
 
 .form{
   margin-left: 5px;
+}
+
+
+.grpTextBox {
+  text-align:left; 
+  font:inherit; 
+  padding:2px 4px; 
+  margin:1px auto; 
+  border:solid 1px #BFBFBF; 
+  border-radius:2px; 
+  -moz-border-radius:2px; 
+  -webkit-border-radius:2px;
+}
+
+textarea[name=foo] {
+  resize: none;
 }
 
 
