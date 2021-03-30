@@ -35,7 +35,7 @@ if ($conn->connect_error) {
 <h1>Admin Menu</h1>
     <button class="moveright" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-list-alt"></span> History</button>
 <form action="Adminprogress.php" method="post" value="ใบเบิก">
-    <input type="submit" name="Request">
+    <input type="submit" value="Request">
 </form>
 
         <form class="form" action="Admin.php" method="post" enctype="multipart/form-data">
@@ -115,8 +115,8 @@ if ($conn->connect_error) {
                 $name = $_POST['name'];
                 $price = $_POST['price'];
                 $number = $_POST['number'];
-                $picture = $_POST['$picture'];
-                
+                $picture = $_POST['picture'];
+                $category = $_POST['category'];
                 
                 
 
@@ -136,7 +136,7 @@ if ($conn->connect_error) {
                 }else{
                 
                         $target_dir = "uploads/";
-                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["names"]);
 
                         $uploadOk = 1;
                         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -173,7 +173,7 @@ if ($conn->connect_error) {
                         }
                 
                 $picture = $target_dir . basename($_FILES["fileToUpload"]["names"]);    
-                $sql = "INSERT INTO list (name, nameENG, price, amount , unit, number , picture, category) VALUES('$name', '$ENG', '$price', 0, 'a',  '$number', '$picture', '$category')";
+                $sql = "INSERT INTO list (name, nameENG, price, amount , unit, number , picture, category) VALUES('$name', '$ENG', '$price', 0, ' ',  '$number', '$picture', '$category')";
                
         
                         if($conn->query($sql) === TRUE) {

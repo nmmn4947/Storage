@@ -34,13 +34,16 @@ if ($conn->connect_error) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <form action="Admin.php">
+        <input type="submit" value="Back">
+    </form>
     
 
 <?php
                         echo "<table id='table1'> <!--นี้คือตารางคำขอใบเบิก -->
 
                         <tr>
-                            <th colspan='7'><h2>ใบเบิก</h2></th>
+                            <th colspan='7'><h2>คำขอใบเบิก</h2></th>
                         </tr>
                         <tr>
                             <th> ID </th>
@@ -51,7 +54,7 @@ if ($conn->connect_error) {
                             <th>-</th>
                         </tr>";
                         $sql="SELECT * from send where Status ='กำลังดำเนินการ'";
-                        $ins = "INSERT INTO messagead (BILL, mess,) VALUES('$BILL, $mess, ') where $BILL";
+
                         
                         
                         $result=$conn->query($sql);
@@ -68,124 +71,103 @@ if ($conn->connect_error) {
                                     <td>".$rows["BILL"]."</td>
                                     <td>".$rows["name"]."</td>
                                     <form action='item.php' method = 'POST'>
-                                    <td><input type='submit' name='Show' value='Item'></td>
+                                    <td><input type='submit' name='Show' value='ใบเบิก'></td>
                                     </form>
                                     <td>".$rows["mess"]."
-                                    <form action='Admin.php' method = 'POST'>
+                                    <form action='Adminprogress.php' method = 'POST'>
                                     <textarea  name='foo' rows='4' cols='50'></textarea>
                                     </td>
-                                    <select id='AR' onchange='selectAR()' name='selects' autofocus>
+                                    <td><select id='AR' onchange='selectAR()' name='selects' autofocus>
                                     <option value='selecto'>---กรุณาเลือก---</option>
                                     <option value='accept'>ยินยอม</option>
                                     <option value='reject'>ไม่ยินยอม</option>
-                                  </select>
-                                  <input type='submit' value='submit' >
+                                    </select>
+                                    </td>
+                                    <td><input type='submit' name='LOL' value='submit'></td>
                                     <input type='hidden' name='ID' value=' ".$rows["BILL"]."'>       
                            
                                     </form> 
                                 </tr>";
                                 
 
+                         if(isset($_POST["LOL"])){
 
-                            if(isset($_POST['submit'])){
+                            $foo= $_POST["foo"];
+                            $selecs = $_POST["selects"];
+                            $BILL_ID = $_POST["ID"];
+                            $ins = "INSERT INTO messagead (BILL, mess) VALUES('$BILL, $foo')";
+                            
+                            if($selecs == "accept"){
+                                $sqla = "UPDATE send SET Status='ยินยอม' WHERE BILL='$BILL' ";
 
-                                if($_POST['accept']){ //ยอมรับ
 
-                                
-                                            if(empty($_POST["mess"])){
-                                                $ar = "INSERT INTO messagead (BILL, mess) VALUES ('$BILL, รับได้เลย')";
-                                                
-                                            if($conn->query($ar) === TRUE) {
-                                                    echo 'Record created success fully 2';
-                                                    } else {
-                                                            echo 'EROEOROROREOR' . $conn->error;
-                                                            }  
-                                                                        }
+                                if(empty($_POST["foo"])){    //ยอมรับเเบบไม่คอมเม้น
+                                    $ar = "INSERT INTO messagead (BILL, mess) VALUES ('$BILL_ID', 'รับได้เลย') ";
+                                    if($conn->query($sql) == TRUE){
 
-                                            else{ if($conn->query($ins) === TRUE) {
-                                                echo 'Record created success fully 2';
-                                                } else {
-                                                        echo 'EROEOROROREOR' . $conn->error;
-                                                        }
-                                                }
-                                                            
-
-                                    if (isset($_POST['reject'])){ //ไม่ยอมรับ
-                                        
-                                        if(empty($_POST["mess"])){
-                                                echo 'กรุณากรอกข้อความ';
-                                     } else{ 
-                                         if($conn->query($ins) === TRUE) {
+                                    
+                                    
+                                if($conn->query($ar) === TRUE) {
                                         echo 'Record created success fully 2';
                                         } else {
                                                 echo 'EROEOROROREOR' . $conn->error;
-                                                }
-                                     }
+                                                }  
+                                            }
+                                                            }
 
-                                    //next : reject check message ว่ามีไหมหากไม่มีขอให้ใส่เพื่อบอกเหตุผล ถ้ามีmessage ส่งได้เลย
 
-                                if($conn->query($ins) === TRUE) {
-                                    echo 'Record created success fully 2';
+
+                                
+                                    if (!empty($_POST["foo"])){
+                                      if  ($conn->query($ins) === TRUE){ 
+                                        echo "Record updated successfully";
                                     } else {
-                                            echo 'EROEOROROREOR' . $conn->error;
-                                    }  
-                       
-                                }
-                            }                        
-                            
-                            
-                            if(isset($_POST['selecto'])){
-                                echo 'กรุณาเลือก';
+                                        echo "Error updating record: " . $conn->error;
+                                    }
+                                 }
+                                 
+                                
+                                     
+                                            }
+
+
+                            if($selecs == "reject"){
+                                $sqltr = "UPDATE send SET Status='ไม่ยินยอม' WHERE BILL='$BILL' ";
+                                
+                                if(empty($_POST["foo"])){  //ไม่ยอมรับเเบบไม่คอมเม้น
+                                    echo 'กรุณากรอกข้อความ';
+                            } else{
+                                if ($conn->query($ins)){
+                                if ($conn->query($sqltr) === TRUE) {
+                                    echo "Record updated successfully";
+                                } else {
+                                    echo "Error updating record: " . $conn->error;
+                                  }
+                                } 
                             }
+                         }
+
+                            if($selecs == "selecto"){
+                                echo "กรุณาเลือก";
+                            }
+                            }       
+                            
                         
-                         else {
+
+
+                            
+                        
+                        }else {
                             echo "<tr><td colspan='6'>0 Results</td></tr>";
                           }
 
-                            
+                        }
+
+                        
+                    }
                         ?>
                             </table>
 
-
-
-                            <?php 
-    
-
-    
-    if (isset($_POST['accept'])){
-
-
-        $ID= $_POST['ID'];
-        
-        
-        $sql = "UPDATE send SET Status='ยินยอม' WHERE BILL='$BILL' ";
-        if ($conn->query($sql) === TRUE) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . $conn->error;
-          } 
-        }
-
-        if (isset($_POST['reject'])){
-
-
-            $ID= $_POST['ID'];
-            
-            
-            $sql = "UPDATE send SET Status='ไม่ยินยอม' WHERE BILL='$BILL' ";
-            if ($conn->query($sql) === TRUE) {
-                echo "Record updated successfully";
-            } else {
-                echo "Error updating record: " . $conn->error;
-              } 
-            }
-           
-
-
-
-        
-
-?>
                             </body>
 
 
@@ -197,10 +179,6 @@ if ($conn->connect_error) {
         
     }
 </script>
-
-
-
-
 
 
 </html>
