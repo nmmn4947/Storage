@@ -71,20 +71,7 @@ if ($conn->connect_error) {
 
         ?>
     <br></br>
-
-
-
-
-
-
-
-
-
-
-            
-
-               
-               
+       
                
                 <table id="table"><!--ตาราง 1 จำนวนของในคลัง-->
 
@@ -118,6 +105,11 @@ if ($conn->connect_error) {
                         <?php if($rows['Status'] == 'STOP'){?>
                                 <p>STOPPED</p>
                         <?php } ?>
+
+                                <form action="Delete.php" method="post">
+                                    <input type="submit" value="Delete">
+                                    <input type="hidden" name="delete1" value="<?php echo $rows["ID"]; ?>">
+                                </form>             
                         </td>
  
                         </tr>
