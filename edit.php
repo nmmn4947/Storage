@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 
 
 
-    echo $row["ID"] . $row["name"] . $row["nameENG"] . $row["price"] . $row["number"] . $row["unit"] . $row["unitENG"] . $row["picture"]. $row["category"];
+   
         echo '<h1>Edit</h1>';
         echo '<form action="editcheark.php" method="post" enctype="multipart/form-data">';
         echo '<br><br><input type="text" name="editname" value = "'.$row['name'].'">';

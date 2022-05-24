@@ -45,31 +45,14 @@ if ($conn->connect_error) {
     <input type="submit" value="Request">
 </form>
 
+<form action="Add_item.php" method="post" value="Add_item">
+    <input type="submit" value="Add">
+</form>
 
-            <input type="submit" name="Edit" value="Edit">
-
-
-        <?php
-        if (isset($_POST['Edit'])) {
-            
-            if((empty($_POST["name"])) or (empty($_POST["price"])) or (empty($_POST["number"]))){
-                echo "NO moreeeeeee";
-            } else{
-                $name = $_POST['name'];
-                $price = $_POST['price'];
-                $number = $_POST['number'];
-                
-                $sql = "UPDATE list SET price='$price',number='$number' WHERE name='$name'";
+<form action="category.php" method="post" value="something">
+    <input type="submit" value="Category">
+</form>
         
-                if($conn->query($sql) === TRUE) {
-                echo "Record created success fully 2";
-                } else {
-                        echo "EROEOROROREOR" . $conn->error;
-                }
-            }
-        }
-
-        ?>
     <br></br>
        
                
@@ -105,11 +88,11 @@ if ($conn->connect_error) {
                         <?php if($rows['Status'] == 'STOP'){?>
                                 <p>STOPPED</p>
                         <?php } ?>
-
+                        <!-- ลบข้อมูลในเเต่ละ rows -->
                                 <form action="Delete.php" method="post">
                                     <input type="submit" value="Delete">
                                     <input type="hidden" name="delete1" value="<?php echo $rows["ID"]; ?>">
-                                </form>             
+                                </form>
                         </td>
  
                         </tr>
@@ -120,9 +103,7 @@ if ($conn->connect_error) {
                 ?>
 
                         </table>
-                                <form action="Add_item.php" method="post" value="Add_item">
-                                    <input type="submit" value="Add">
-                                </form>
+                                
                 <br><br><br>
 
             
