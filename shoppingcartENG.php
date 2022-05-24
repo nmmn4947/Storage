@@ -34,20 +34,20 @@ $connection->query($pd);
         </style>
 	</head>
 <body>
-<a href="shoppingcartENG.php"><img src="img/ENG.jpg" width="100px" height="60px"></a>
+<a href="shoppingcart.php"><img src="img/THAI.png" width="100px" height="60px"></a>
 	<div>
 		   <table class="table table-hover">
-		   		<form action="Face.php">
+		   		<form action="FaceENG.php">
 				<tr>
-        			<th colspan="4"><h2>รายการเบิกยืม</h2></th><th><button>กลับ</button></th>
+        			<th colspan="4"><h2>list of items</h2></th><th><button>back</button></th>
     			</tr>
 		   		</form>
     			<t>
-        			<th> ชื่อ </th>
-        			<th> ราคา </th>
-        			<th> จำนวนที่ต้องการ </th>
-                    <th> ปรับจำนวน </th>
-                    <th> หน่วย </th>
+        			<th> name </th>
+        			<th> price </th>
+        			<th> amount </th>
+                    <th> edit amount </th>
+                    <th> unit </th>
                     <th> </th>
     			</t>
     			<?php
@@ -62,20 +62,20 @@ $connection->query($pd);
                         $qey=$rows["amount"];
     			?>
             			<tr>
-                			<td><?php echo $rows['name']; ?></td>
+                			<td><?php echo $rows['nameENG']; ?></td>
                 			<td><?php echo $rows['price']; $Totap = $Totap + ($rows['price'] * $rows['amount']); ?></td>
                 			<td><?php echo $rows['amount']; ?></td>
-                			<td><form action="update.php" method="post">
+                			<td><form action="updateENG.php" method="post">
                                 <input type="number" name="plustext" min="1" max="<?php echo $rows['number']; ?>">
                                 <input type="hidden" name="kong5" value="<?php echo $rows['name']; ?>">
-                                <input type="submit" name="upu-dateto" value="เลือกจำนวน"></form></td>
+                                <input type="submit" name="upu-dateto" value="edit"></form></td>
                             <!--<td><form action="unit.php" method="post">
 								<input type="text" name="uruni">
 								<input type="hidden" name="hide" value="<?php //echo $rows['picture']; ?>">
 								<input type="submit" name="upu-unito" value="Submit">
 							</form></td>-->
-							<td><?php echo $rows['unit']; ?></td>
-                            <td><form action="bruh.php" method="post"><input type="submit" name="minustext" value="ลบ"><input type="hidden" name="DI" value="<?php echo $DI; ?>"></form>
+							<td><?php echo $rows['unitENG']; ?></td>
+                            <td><form action="bruhENG.php" method="post"><input type="submit" name="minustext" value="DELETE"><input type="hidden" name="DI" value="<?php echo $DI; ?>"></form>
                                     <form action="Confirm.php" method="post"><input type="hidden" name="par" value="<?php echo $rows['amount']?>"></form>
                             </td>
             			</tr>

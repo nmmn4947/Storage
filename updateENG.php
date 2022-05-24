@@ -13,13 +13,10 @@ echo "erroro";
         $BY=$_SESSION['Bill'];
         $nicesql="UPDATE shop2 SET amount='$TY' WHERE name='$FY' AND BILL='$BY'";
            if ($connection->query($nicesql) === TRUE) {
-                echo "เยส";
-                header("location:shoppingcart.php");
+                header("location:shoppingcartENG.php");
             } else {
-                echo "ไม่ได้";
+                echo "nope";
                 $connection->error;
             }
-    } else {
-        header("location:shoppingcart.php");
-    }
+        }
 ?>

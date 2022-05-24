@@ -1,4 +1,6 @@
-
+main {
+	display: flex;
+}
 .modal-header, h4, .close{
 	background-color: grey;
 	color: #fff !important;
@@ -10,7 +12,17 @@
 	padding: 40px 50px;
 	color: black;
 }
+.right {
+	position: absolute;
+	left: 90%;
+}
 .right2 {
+	position: absolute;
+	left: 84%;
+}
+.right3 {
 	position: relative;
-	left: 82%;
+	right: 50%;
+	
+
 }
