@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="yourmom.css">
+    <script>
+        // When the user clicks on <div>, open the popup
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+          var audio = document.getElementById("aud");
+          audio.play();
+          var x = document.getElementById("pic");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        
+
+        }
+        </script>
+</head>
+<body>
+    <div class="popup" onclick="myFunction()"> .
+        <span class="popuptext" id="myPopup">Ohh...</span>
+        <audio id="aud" src="Ohh.m4a"></audio>
+        <img src="https://i.ytimg.com/vi/MTee8FexSik/hqdefault.jpg" id="pic" style="display: none;">
+      </div>
+</body>
+</html>
