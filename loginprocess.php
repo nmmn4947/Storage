@@ -12,7 +12,7 @@ session_start();
         if ($conn->connect_error) {
                 echo "errorororo";
             }
-        $sql="SELECT * from email where Email='$uname'";
+        $sql="SELECT * from email where uname ='$uname'";
         $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
