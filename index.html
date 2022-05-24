@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles1.css">
+    <style>
+      main {
+            display: flex;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,21 +27,15 @@
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
         
-        <br>
-        <label class="moveright">
-          <input type="checkbox" checked="checked" name="remember"> Remember me
-        </label>
-        
       <br>
-        <button type="submit">Login</button> 
-        </form>
-      </div>
-
+        <button type="submit">Login</button>
     </form>
+      <br>
+    <form action="regis.php">
+    <button type="submit">Register</button>
+    </form>
+</div>
   </div>
-
-
-
 
 
 </body>
