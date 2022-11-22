@@ -44,7 +44,4 @@ $cate = "SELECT * FROM category";
                     }
                 ?>   
         </table>
-    <form action="Add_item.php" method="post" value="Add_item">
-        <input type="submit" value="Add">
-    </form>
 </html>

@@ -9,6 +9,5 @@
 		<input type="text" name="mes1" value="">
 		<input type="submit" value="Confirm">
 	</form>
-	<!-- อาจไม่ได้ใช่ -->
 </body>
 </html>

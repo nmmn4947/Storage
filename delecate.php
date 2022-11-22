@@ -5,12 +5,12 @@
     if ($connection->connect_error) {
         echo "errorororo";
     }
-        $tr = $_POST["delete1"];
-        $sql = "DELETE FROM list WHERE ID='$tr'";
-echo $tr;
+        $tr = $_POST["delecate"];
+        $sql = "DELETE FROM category WHERE ID='$tr'";
+        
         if (($_SERVER["REQUEST_METHOD"]) == "POST") {
             if ($connection->query($sql) === TRUE) {
-                header("location:Admin.php");
+                header("location:category.php");
             } else {
                 echo "something errer";
             }
